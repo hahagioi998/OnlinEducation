@@ -1,6 +1,7 @@
 package com.hzlei.eduservice.controller;
 
 
+import com.hzlei.commonutils.R;
 import com.hzlei.eduservice.entity.EduTeacher;
 import com.hzlei.eduservice.service.EduTeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,15 +27,17 @@ public class EduTeacherController {
 
     // 1, 查询讲师表所有数据
     @GetMapping("findAll")
-    public List<EduTeacher> findAllTeacher() {
+    public R findAllTeacher() {
         List<EduTeacher> teachers = eduTeacherService.list(null);
-        return teachers;
+        return R.ok().data("items", teachers);
     }
 
     // 2, 逻辑删除讲师
     @DeleteMapping("delete/{id}")
-    public boolean removeTeacher(@PathVariable String id) {
-        return eduTeacherService.removeById(id);
+    public R removeTeacher(@PathVariable String id) {
+        boolean flag = eduTeacherService.removeById(id);
+        if (flag) return R.ok();
+        else return R.error();
     }
 
 

@@ -17,10 +17,17 @@
     </modules>
     <dependencies>
 
-        <!-- 公共服务 swagger -->
+        <!-- 引入service_base模块 -->
         <dependency>
             <groupId>com.hzlei</groupId>
             <artifactId>service_base</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <!-- 引入common_utils模块 -->
+        <dependency>
+            <groupId>com.hzlei</groupId>
+            <artifactId>common_utils</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
