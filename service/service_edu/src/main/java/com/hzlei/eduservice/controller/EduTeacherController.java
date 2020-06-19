@@ -97,8 +97,8 @@ public class EduTeacherController {
     // 5, 添加讲师
     @PostMapping("addTeacher")
     public R addTeacher(@RequestBody EduTeacher teacher) {
-        boolean save = eduTeacherService.save(teacher);
-        if (save) return R.ok();
+        boolean result = eduTeacherService.save(teacher);
+        if (result) return R.ok();
         else return R.error();
     }
 
