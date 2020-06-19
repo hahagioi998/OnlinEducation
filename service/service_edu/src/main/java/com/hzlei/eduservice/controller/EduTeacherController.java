@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -25,7 +26,7 @@ import java.util.List;
 public class EduTeacherController {
 
     // service注入
-    @Autowired
+    @Resource
     private EduTeacherService eduTeacherService;
 
     // 1, 查询讲师表所有数据
