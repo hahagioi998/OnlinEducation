@@ -103,6 +103,22 @@ public class EduTeacherController {
         else return R.error();
     }
 
+    // 根据讲师id进行查询
+    @GetMapping("getTeacher/{id}")
+    public R getTeacher(@PathVariable String id) {
+        EduTeacher teacher = eduTeacherService.getById(id);
+        return R.ok().data("teacher", teacher);
+    }
+
+    // 6, 讲师修改功能
+    @PostMapping("updateTeacher")
+    public R updateTeacher(@RequestBody EduTeacher teacher) {
+        boolean result = eduTeacherService.updateById(teacher);
+        if (result) return R.ok();
+        else return R.error();
+    }
+
+
 
 }
 
