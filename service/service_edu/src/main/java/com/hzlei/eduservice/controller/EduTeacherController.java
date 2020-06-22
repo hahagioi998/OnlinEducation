@@ -106,6 +106,7 @@ public class EduTeacherController {
     // 根据讲师id进行查询
     @GetMapping("getTeacher/{id}")
     public R getTeacher(@PathVariable String id) {
+        int i = 10 / 0;
         EduTeacher teacher = eduTeacherService.getById(id);
         return R.ok().data("teacher", teacher);
     }
