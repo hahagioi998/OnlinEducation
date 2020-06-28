@@ -21,6 +21,8 @@ import java.util.List;
  * @author hzlei
  * @since 2020-06-16
  */
+// 解决跨域
+@CrossOrigin
 @RestController
 @RequestMapping("/eduservice/teacher")
 public class EduTeacherController {
