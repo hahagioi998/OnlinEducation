@@ -87,6 +87,9 @@ public class EduTeacherController {
         if (!StringUtils.isEmpty(end))
             wrapper.le("gmt_create", end); // le: 小于等于
 
+        // 排序
+        wrapper.orderByDesc("gmt_create");
+
         // 调用方法实现条件查询分页
         eduTeacherService.page(page, wrapper);
         // 总记录数
