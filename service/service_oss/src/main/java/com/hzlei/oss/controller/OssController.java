@@ -28,9 +28,9 @@ public class OssController {
     @PostMapping("")
     public R uploadOssFile(MultipartFile file) {
         // 获取上传对象 MultipartFile
-        String avatorUrl = ossService.uploadFileAvator(file);
+        String avatarUrl = ossService.uploadFileAvator(file);
 
-        return R.ok().data("url", avatorUrl);
+        return R.ok().data("url", avatarUrl);
     }
 
 }
