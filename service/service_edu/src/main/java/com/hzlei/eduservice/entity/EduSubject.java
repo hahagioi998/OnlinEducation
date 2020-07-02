@@ -1,7 +1,10 @@
 package com.hzlei.eduservice.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
 import java.util.Date;
+
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
@@ -39,9 +42,11 @@ public class EduSubject implements Serializable {
     @ApiModelProperty(value = "排序字段")
     private Integer sort;
 
+    @TableField(fill = FieldFill.INSERT)
     @ApiModelProperty(value = "创建时间")
     private Date gmtCreate;
 
+    @TableField(fill = FieldFill.UPDATE)
     @ApiModelProperty(value = "更新时间")
     private Date gmtModified;
 

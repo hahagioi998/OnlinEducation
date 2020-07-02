@@ -2,6 +2,7 @@ package com.hzlei.eduservice.service;
 
 import com.hzlei.eduservice.entity.EduSubject;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * <p>
@@ -13,4 +14,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface EduSubjectService extends IService<EduSubject> {
 
+    // 添加课程分类
+    void saveSubject(MultipartFile file, EduSubjectService eduSubjectService);
 }
