@@ -8,6 +8,8 @@ import com.hzlei.eduservice.entity.excel.SubjectData;
 import com.hzlei.eduservice.service.EduSubjectService;
 import com.hzlei.servicebase.exceptionhandler.HzleiException;
 
+import javax.annotation.Resource;
+
 /**
  * @Description: 监听器
  * @Author hzlei
@@ -46,7 +48,7 @@ public class SubjectExcelListener extends AnalysisEventListener<SubjectData> {
 
         // 添加二级分类
         // 判断二级分类是否重复
-        EduSubject existTwoSubject = this.existTwoSubject(subjectData.getOneSubjectName(), parent_id, eduSubjectService);
+        EduSubject existTwoSubject = this.existTwoSubject(subjectData.getTwoSubjectName(), parent_id, eduSubjectService);
         if (existTwoSubject == null) {
             existTwoSubject = new EduSubject();
             existTwoSubject.setParentId(parent_id);
@@ -61,7 +63,7 @@ public class SubjectExcelListener extends AnalysisEventListener<SubjectData> {
     }
 
     // 判断一级分类,不能重复添加
-    private EduSubject existOneSubject(String name, EduSubjectService eduSubjectService) {
+    private static EduSubject existOneSubject(String name, EduSubjectService eduSubjectService) {
         QueryWrapper<EduSubject> wrapper = new QueryWrapper<>();
         wrapper.eq("title", name);
         wrapper.eq("parent_id", "0");
@@ -70,11 +72,12 @@ public class SubjectExcelListener extends AnalysisEventListener<SubjectData> {
     }
 
     // 判断二级分类,不能重复添加
-    private EduSubject existTwoSubject(String name, String parent_id, EduSubjectService eduSubjectService) {
+    private static EduSubject existTwoSubject(String name, String parent_id, EduSubjectService eduSubjectService) {
         QueryWrapper<EduSubject> wrapper = new QueryWrapper<>();
         wrapper.eq("title", name);
         wrapper.eq("parent_id", parent_id);
         EduSubject twoSubject = eduSubjectService.getOne(wrapper);
         return twoSubject;
     }
+
 }

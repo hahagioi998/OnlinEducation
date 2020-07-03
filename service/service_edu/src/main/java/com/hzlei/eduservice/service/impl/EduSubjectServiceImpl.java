@@ -33,7 +33,7 @@ public class EduSubjectServiceImpl extends ServiceImpl<EduSubjectMapper, EduSubj
             InputStream in = file.getInputStream();
 
             // 调用方法进行读取
-            EasyExcel.read(in, SubjectData.class, new SubjectExcelListener()).sheet().doRead();
+            EasyExcel.read(in, SubjectData.class, new SubjectExcelListener(eduSubjectService)).sheet().doRead();
 
         } catch (IOException e) {
             e.printStackTrace();
