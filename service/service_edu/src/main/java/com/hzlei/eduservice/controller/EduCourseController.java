@@ -1,10 +1,12 @@
 package com.hzlei.eduservice.controller;
 
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
+import com.hzlei.commonutils.R;
+import com.hzlei.eduservice.entity.vo.CourseInfoVo;
+import com.hzlei.eduservice.service.EduCourseService;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.RestController;
+import javax.annotation.Resource;
 
 /**
  * <p>
@@ -19,6 +21,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/eduservice/course")
 public class EduCourseController {
+
+    @Resource
+    private EduCourseService courseService;
+
+    // 添加课程基本信息
+    @PostMapping("addCourseInfo")
+    public R addCourseInfo(@RequestBody CourseInfoVo course) {
+        courseService.saveCourseInfo(course);
+        return R.ok();
+    }
 
 }
 
