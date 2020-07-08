@@ -14,5 +14,5 @@ import com.hzlei.eduservice.entity.vo.CourseInfoVo;
  */
 public interface EduCourseService extends IService<EduCourse> {
 
-    void saveCourseInfo(CourseInfoVo course);
+    String saveCourseInfo(CourseInfoVo course);
 }

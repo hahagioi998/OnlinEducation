@@ -29,7 +29,7 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
 
     // 添加课程基本信息
     @Override
-    public void saveCourseInfo(CourseInfoVo course) {
+    public String saveCourseInfo(CourseInfoVo course) {
         // 1. 向课程表(edu_course)添加课程基本信息
         // 将 CourseInfoVo 对象转换成 EduCourse 对象
         EduCourse eduCourse = new EduCourse();
@@ -42,5 +42,6 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
         courseDescription.setId(eduCourse.getId());
         courseDescription.setDescription(course.getDescription());
         courseDescriptionService.save(courseDescription);
+        return eduCourse.getId();
     }
 }
