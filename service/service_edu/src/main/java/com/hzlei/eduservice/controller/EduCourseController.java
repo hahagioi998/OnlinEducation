@@ -33,5 +33,27 @@ public class EduCourseController {
         return R.ok().data("courseId", id);
     }
 
+    /**
+     *  查询课程基本信息
+     * @param courseId 课程id
+     * @return
+     */
+    @GetMapping("getCourseInfo/{courseId}")
+    public R getCourseInfo(@PathVariable String courseId) {
+        CourseInfoVo courseInfoVo = courseService.getCourseInfo(courseId);
+        return R.ok().data("courseInfoVo", courseInfoVo);
+    }
+
+    /**
+     * 修改课程信息
+     * @param courseInfoVo 课程描述对象
+     * @return
+     */
+    @PostMapping("updateCourseInfo")
+    public R updateCourseInfo(@RequestBody CourseInfoVo courseInfoVo) {
+        courseService.updateCourseInfo(courseInfoVo);
+        return R.ok();
+    }
+
 }
 

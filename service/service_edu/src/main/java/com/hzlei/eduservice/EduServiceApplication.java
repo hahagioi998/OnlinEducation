@@ -3,6 +3,7 @@ package com.hzlei.eduservice;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * @Description: 启动类
@@ -12,6 +13,8 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication
 // 主要是为了扫描到公共模块(common)下的 swagger
 @ComponentScan(basePackages = {"com.hzlei"})
+// 开启 springboot 事务支持
+@EnableTransactionManagement
 public class EduServiceApplication {
 
     public static void main(String[] args) {

@@ -10,6 +10,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hzlei.servicebase.exceptionhandler.HzleiException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 
@@ -43,5 +44,48 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
         courseDescription.setDescription(course.getDescription());
         courseDescriptionService.save(courseDescription);
         return eduCourse.getId();
+    }
+
+    /**
+     *  查询课程基本信息
+     * @param courseId 课程id
+     * @return
+     */
+    @Override
+    public CourseInfoVo getCourseInfo(String courseId) {
+        // 定义返回的数据
+        CourseInfoVo courseInfoVo = new CourseInfoVo();
+
+        // 1. 查询课程表
+        EduCourse eduCourse = baseMapper.selectById(courseId);
+        // 2. 查询课程描述表
+        EduCourseDescription courseDescription = courseDescriptionService.getById(courseId);
+
+        BeanUtils.copyProperties(eduCourse, courseInfoVo);
+        BeanUtils.copyProperties(courseDescription, courseInfoVo);
+
+        return courseInfoVo;
+    }
+
+    /**
+     * 修改课程信息
+     * @param courseInfoVo 课程描述对象
+     * @return
+     */
+    @Transactional // 事务
+    @Override
+    public void updateCourseInfo(CourseInfoVo courseInfoVo) {
+        // 1. 修改课程表
+        EduCourse eduCourse = new EduCourse();
+        BeanUtils.copyProperties(courseInfoVo, eduCourse);
+        int updateEducourse = baseMapper.updateById(eduCourse);
+
+        // 2. 修改课程描述表
+        EduCourseDescription eduCourseDescription = new EduCourseDescription();
+        BeanUtils.copyProperties(courseInfoVo, eduCourseDescription);
+        boolean updateEduCourseDesc = courseDescriptionService.updateById(eduCourseDescription);
+
+        if (updateEducourse == 0 || updateEduCourseDesc == false)
+            throw new HzleiException(20001, "修改课程信息失败");
     }
 }
