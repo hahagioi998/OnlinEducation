@@ -4,14 +4,14 @@
 
 ### 选用的技术
 
-#### [后端地址](https://github.com/573e/OnlinEducation)
+#### [后端传送门](https://github.com/573e/OnlinEducation)
 1. SpringBoot
 2. SpringCloud
 3. MyBatisPlus
 4. SpringSecurity
 5. redis
 
-#### [前端地址](https://github.com/573e/onlineducation-admin)
+#### [前端传送门](https://github.com/573e/onlineducation-admin)
 1. VUE
 2. element-ui
 3. axios
