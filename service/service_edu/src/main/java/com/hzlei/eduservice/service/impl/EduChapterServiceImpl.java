@@ -9,6 +9,7 @@ import com.hzlei.eduservice.mapper.EduChapterMapper;
 import com.hzlei.eduservice.service.EduChapterService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hzlei.eduservice.service.EduVideoService;
+import com.hzlei.servicebase.exceptionhandler.HzleiException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -75,5 +76,24 @@ public class EduChapterServiceImpl extends ServiceImpl<EduChapterMapper, EduChap
             chapterVo.setChildren(videoList);
         }
         return finalList;
+    }
+
+    /**
+     * 删除章节信息
+     * @param chapterId 章节 id
+     * @return
+     */
+    @Override
+    public boolean deleteChapter(String chapterId) {
+        // 根据章节id（chapterId）查询小节，查询到小节，不能删除
+        QueryWrapper<EduVideo> wrapper = new QueryWrapper<>();
+        wrapper.eq("chapter_id", chapterId);
+        int count = videoService.count(wrapper);
+        if (count > 0) throw new HzleiException(20001, "章节里面有小节，不能删除");
+        else {
+            int result = baseMapper.deleteById(chapterId);
+            return result > 0;
+        }
+
     }
 }
