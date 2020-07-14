@@ -21,7 +21,7 @@ public class GlobalExceptionHandler {
     public R error(Exception e) {
         log.error(String.valueOf(e));
         e.printStackTrace();
-        return R.error().message("全局异常处理: " + e);
+        return R.error().message("全局异常处理: " + e.getStackTrace()[0]);
     }
 
     @ResponseBody
@@ -30,7 +30,7 @@ public class GlobalExceptionHandler {
     public R error(ArithmeticException ae) {
         log.error(String.valueOf(ae));
         ae.printStackTrace();
-        return R.error().message("特定异常处理: " + ae);
+        return R.error().message("特定异常处理: " + ae.getStackTrace()[0]);
     }
 
     @ResponseBody
