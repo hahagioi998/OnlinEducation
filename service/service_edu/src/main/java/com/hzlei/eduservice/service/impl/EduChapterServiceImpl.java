@@ -44,11 +44,16 @@ public class EduChapterServiceImpl extends ServiceImpl<EduChapterMapper, EduChap
         // 1. 查询所有章节 by courseId
         QueryWrapper<EduChapter> wrapperChapter = new QueryWrapper<>();
         wrapperChapter.eq("course_id", courseId);
+        // 排序
+        wrapperChapter.orderByAsc("sort");
+
         List<EduChapter> eduChaptersList = baseMapper.selectList(wrapperChapter);
 
         // 2. 查询所有小节 by courseId
         QueryWrapper<EduVideo> wrapperVideo = new QueryWrapper<>();
         wrapperVideo.eq("course_id", courseId);
+        // 排序
+        wrapperVideo.orderByAsc("sort");
         List<EduVideo> eduVideoList = videoService.list(wrapperVideo);
 
         // 3. 遍历章节 list 集合进行封装
