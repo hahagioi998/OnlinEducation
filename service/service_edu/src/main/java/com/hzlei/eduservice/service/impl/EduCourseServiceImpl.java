@@ -3,6 +3,7 @@ package com.hzlei.eduservice.service.impl;
 import com.hzlei.eduservice.entity.EduCourse;
 import com.hzlei.eduservice.entity.EduCourseDescription;
 import com.hzlei.eduservice.entity.vo.CourseInfoVo;
+import com.hzlei.eduservice.entity.vo.CoursePublishVo;
 import com.hzlei.eduservice.mapper.EduCourseMapper;
 import com.hzlei.eduservice.service.EduCourseDescriptionService;
 import com.hzlei.eduservice.service.EduCourseService;
@@ -87,5 +88,17 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
 
         if (updateEducourse == 0 || updateEduCourseDesc == false)
             throw new HzleiException(20001, "修改课程信息失败");
+    }
+
+    /**
+     * 根据课程id（courseId）查询课程最终确认信息
+     * @param courseId 课程 id
+     * @return
+     */
+    @Override
+    public CoursePublishVo getPublishCourseInfo(String courseId) {
+        // 调用 mapper
+        CoursePublishVo publishCourseInfo = baseMapper.getPublishCourseInfo(courseId);
+        return publishCourseInfo;
     }
 }

@@ -3,6 +3,7 @@ package com.hzlei.eduservice.controller;
 
 import com.hzlei.commonutils.R;
 import com.hzlei.eduservice.entity.vo.CourseInfoVo;
+import com.hzlei.eduservice.entity.vo.CoursePublishVo;
 import com.hzlei.eduservice.service.EduCourseService;
 import org.springframework.web.bind.annotation.*;
 
@@ -53,6 +54,17 @@ public class EduCourseController {
     public R updateCourseInfo(@RequestBody CourseInfoVo courseInfoVo) {
         courseService.updateCourseInfo(courseInfoVo);
         return R.ok();
+    }
+
+    /**
+     * 根据课程id（courseId）查询课程最终确认信息
+     * @param courseId 课程 id
+     * @return
+     */
+    @GetMapping("getPublishCourseInfo/{courseId}")
+    public R getPublishCourseInfo(@PathVariable String courseId) {
+        CoursePublishVo coursePublish = courseService.getPublishCourseInfo(courseId);
+        return R.ok().data("publishCourse", coursePublish);
     }
 
 }

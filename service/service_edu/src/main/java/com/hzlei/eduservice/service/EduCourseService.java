@@ -3,6 +3,7 @@ package com.hzlei.eduservice.service;
 import com.hzlei.eduservice.entity.EduCourse;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.hzlei.eduservice.entity.vo.CourseInfoVo;
+import com.hzlei.eduservice.entity.vo.CoursePublishVo;
 
 /**
  * <p>
@@ -19,4 +20,6 @@ public interface EduCourseService extends IService<EduCourse> {
     CourseInfoVo getCourseInfo(String courseId);
 
     void updateCourseInfo(CourseInfoVo courseInfoVo);
+
+    CoursePublishVo getPublishCourseInfo(String courseId);
 }
