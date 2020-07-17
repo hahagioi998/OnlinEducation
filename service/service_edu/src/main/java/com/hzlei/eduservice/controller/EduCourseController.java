@@ -2,6 +2,7 @@ package com.hzlei.eduservice.controller;
 
 
 import com.hzlei.commonutils.R;
+import com.hzlei.eduservice.entity.EduCourse;
 import com.hzlei.eduservice.entity.vo.CourseInfoVo;
 import com.hzlei.eduservice.entity.vo.CoursePublishVo;
 import com.hzlei.eduservice.service.EduCourseService;
@@ -65,6 +66,16 @@ public class EduCourseController {
     public R getPublishCourseInfo(@PathVariable String courseId) {
         CoursePublishVo coursePublish = courseService.getPublishCourseInfo(courseId);
         return R.ok().data("publishCourse", coursePublish);
+    }
+
+    // 1
+    @PostMapping("publishCourse/{courseId}")
+    public R publishCourse(@PathVariable String courseId) {
+        EduCourse course = new EduCourse();
+        course.setId(courseId);
+        course.setStatus("Normal");
+        courseService.updateById(course);
+        return R.ok();
     }
 
 }
