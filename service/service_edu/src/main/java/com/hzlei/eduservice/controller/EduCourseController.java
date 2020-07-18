@@ -1,14 +1,21 @@
 package com.hzlei.eduservice.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hzlei.commonutils.R;
 import com.hzlei.eduservice.entity.EduCourse;
+import com.hzlei.eduservice.entity.EduTeacher;
 import com.hzlei.eduservice.entity.vo.CourseInfoVo;
 import com.hzlei.eduservice.entity.vo.CoursePublishVo;
+import com.hzlei.eduservice.entity.vo.CourseQuery;
+import com.hzlei.eduservice.entity.vo.TeacherQuery;
 import com.hzlei.eduservice.service.EduCourseService;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * <p>
@@ -26,6 +33,56 @@ public class EduCourseController {
 
     @Resource
     private EduCourseService courseService;
+
+    // 课程列表
+    @GetMapping("getCourseList")
+    public R getCourseList() {
+        List<EduCourse> list = courseService.list(null);
+        return R.ok().data("list", list);
+    }
+
+    /**
+     * 课程列表, 条件查询带分页
+     * @param current 当前页
+     * @param limit 每页记录数
+     * @param course 条件查询对象
+     * @return
+     */
+    @PostMapping("pageCourseCondition/{current}/{limit}")
+    public R pageCourseCondition(@PathVariable long current,
+                                 @PathVariable long limit,
+                                 @RequestBody(required = false) CourseQuery course) {
+        // 创建page对象
+        Page<EduCourse> page = new Page<>(current, limit);
+
+        // 构建条件
+        QueryWrapper<EduCourse> wrapper = new QueryWrapper<>();
+        // 判断条件值是否为空,如果不为空拼接条件
+        String title = course.getTitle();
+        String status = course.getStatus();
+        String begin = course.getBegin();
+        String end = course.getEnd();
+        if (!StringUtils.isEmpty(title))
+            wrapper.like("title", title);
+        if (!StringUtils.isEmpty(status))
+            wrapper.eq("status", status);
+        if (!StringUtils.isEmpty(begin))
+            wrapper.ge("gmt_create", begin); // ge: 大于等于
+        if (!StringUtils.isEmpty(end))
+            wrapper.le("gmt_create", end); // le: 小于等于
+
+        // 排序
+        wrapper.orderByDesc("gmt_create");
+
+        // 调用方法实现条件查询分页
+        courseService.page(page, wrapper);
+        // 总记录数
+        long total = page.getTotal();
+        // 数据list集合
+        List<EduCourse> records = page.getRecords();
+
+        return R.ok().data("total", total).data("rows", records);
+    }
 
     // 添加课程基本信息
     @PostMapping("addCourseInfo")
