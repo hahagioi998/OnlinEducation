@@ -63,7 +63,13 @@ public class EduTeacherController {
         return R.ok().data("total", total).data("rows", records);
     }
 
-    // 4, 条件查询带分页的方法
+    /**
+     * 4, 条件查询带分页的方法
+     * @param current 当前页
+     * @param limit 每页记录数
+     * @param teacher 条件查询对象
+     * @return
+     */
     @PostMapping("pageTeacherCondition/{current}/{limit}")
     public R pageTeacherCondition(@PathVariable long current,
                                   @PathVariable long limit,
