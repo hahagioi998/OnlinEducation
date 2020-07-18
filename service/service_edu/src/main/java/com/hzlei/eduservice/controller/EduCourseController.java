@@ -34,13 +34,6 @@ public class EduCourseController {
     @Resource
     private EduCourseService courseService;
 
-    // 课程列表
-    @GetMapping("getCourseList")
-    public R getCourseList() {
-        List<EduCourse> list = courseService.list(null);
-        return R.ok().data("list", list);
-    }
-
     /**
      * 课程列表, 条件查询带分页
      * @param current 当前页
@@ -125,13 +118,27 @@ public class EduCourseController {
         return R.ok().data("publishCourse", coursePublish);
     }
 
-    // 1
+    /**
+     * 修改课程发布状态
+     * @param courseId 课程 id
+     * @return
+     */
     @PostMapping("publishCourse/{courseId}")
     public R publishCourse(@PathVariable String courseId) {
         EduCourse course = new EduCourse();
         course.setId(courseId);
         course.setStatus("Normal");
         courseService.updateById(course);
+        return R.ok();
+    }
+
+    /**
+     * 删除课程
+     * @param courseId 课程 id
+     */
+    @DeleteMapping("deleteCourse/{courseId}")
+    public R deleteCourse(@PathVariable String courseId) {
+        courseService.removeCourse(courseId);
         return R.ok();
     }
 

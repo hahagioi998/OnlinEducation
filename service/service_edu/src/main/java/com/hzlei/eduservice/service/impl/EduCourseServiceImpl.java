@@ -5,9 +5,11 @@ import com.hzlei.eduservice.entity.EduCourseDescription;
 import com.hzlei.eduservice.entity.vo.CourseInfoVo;
 import com.hzlei.eduservice.entity.vo.CoursePublishVo;
 import com.hzlei.eduservice.mapper.EduCourseMapper;
+import com.hzlei.eduservice.service.EduChapterService;
 import com.hzlei.eduservice.service.EduCourseDescriptionService;
 import com.hzlei.eduservice.service.EduCourseService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.hzlei.eduservice.service.EduVideoService;
 import com.hzlei.servicebase.exceptionhandler.HzleiException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -28,6 +30,10 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
 
     @Resource
     private EduCourseDescriptionService courseDescriptionService;
+    @Resource
+    private EduVideoService videoService;
+    @Resource
+    private EduChapterService chapterService;
 
     // 添加课程基本信息
     @Override
@@ -100,5 +106,26 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
         // 调用 mapper
         CoursePublishVo publishCourseInfo = baseMapper.getPublishCourseInfo(courseId);
         return publishCourseInfo;
+    }
+
+    /**
+     * 删除课程
+     * @param courseId 课程 id
+     */
+    @Override
+    public void removeCourse(String courseId) {
+        // 1. 根据课程 id 删除小节
+        videoService.removeVideoByCourseId(courseId);
+
+        // 2. 根据课程 id 删除章节
+        chapterService.removeChapterByCourseId(courseId);
+
+        // 3. 根据课程 id 删除描述
+        courseDescriptionService.removeById(courseId);
+
+        // 4. 根据课程 id 删除课程本身
+        int result = baseMapper.deleteById(courseId);
+
+        if (result == 0) throw  new HzleiException(20001, "删除课程失败");
     }
 }

@@ -1,5 +1,6 @@
 package com.hzlei.eduservice.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.hzlei.eduservice.entity.EduVideo;
 import com.hzlei.eduservice.mapper.EduVideoMapper;
 import com.hzlei.eduservice.service.EduVideoService;
@@ -17,4 +18,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class EduVideoServiceImpl extends ServiceImpl<EduVideoMapper, EduVideo> implements EduVideoService {
 
+    /**
+     * 根据课程 id 删除小节
+     * @param courseId: 课程 id
+     */
+    @Override
+    public void removeVideoByCourseId(String courseId) {
+        QueryWrapper<EduVideo> wrapper = new QueryWrapper<>();
+        wrapper.eq("course_id", courseId);
+        baseMapper.delete(wrapper);
+    }
 }
