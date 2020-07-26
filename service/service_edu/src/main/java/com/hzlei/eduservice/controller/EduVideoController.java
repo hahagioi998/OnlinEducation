@@ -3,7 +3,9 @@ package com.hzlei.eduservice.controller;
 
 import com.hzlei.commonutils.R;
 import com.hzlei.eduservice.entity.EduVideo;
+import com.hzlei.eduservice.feginclient.VodClient;
 import com.hzlei.eduservice.service.EduVideoService;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -24,6 +26,8 @@ public class EduVideoController {
 
     @Resource
     private EduVideoService videoService;
+    @Resource
+    private VodClient vodClient;
 
     /**
      * 添加小节
@@ -38,12 +42,20 @@ public class EduVideoController {
 
     /**
      * 删除小节
-     * @param id
+     * @param id 小节 id
      * @return
      * TODO 后面需要完善, 删除小节的时候, 小节里面的视频也要删除
      */
     @DeleteMapping("deleteVideo/{id}")
     public R deleteVideo(@PathVariable String id) {
+        // 根据小节 id 得到 视频 id
+        String videoId = videoService.getById(id).getVideoSourceId();
+        // 判断小节里面是否有视频 id
+        if (!StringUtils.isEmpty(videoId)) {
+            // 根据视频 id, 实现远程调用, 删除视频
+            vodClient.removeVideoByVideoId(videoId);
+        }
+        // 删除小节
         videoService.removeById(id);
         return R.ok();
     }
