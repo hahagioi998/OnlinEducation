@@ -5,6 +5,7 @@ import com.hzlei.commonutils.R;
 import com.hzlei.eduservice.entity.EduVideo;
 import com.hzlei.eduservice.feginclient.VodClient;
 import com.hzlei.eduservice.service.EduVideoService;
+import com.hzlei.servicebase.exceptionhandler.HzleiException;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -53,7 +54,10 @@ public class EduVideoController {
         // 判断小节里面是否有视频 id
         if (!StringUtils.isEmpty(videoId)) {
             // 根据视频 id, 实现远程调用, 删除视频
-            vodClient.removeVideoByVideoId(videoId);
+            R r = vodClient.removeVideoByVideoId(videoId);
+            if (r.getCode() == 20001) {
+                throw new HzleiException(20001, "删除视频出错了 ---> by hystrix tip");
+            }
         }
         // 删除小节
         videoService.removeById(id);

@@ -1,6 +1,7 @@
 package com.hzlei.eduservice.feginclient;
 
 import com.hzlei.commonutils.R;
+import com.hzlei.eduservice.feginclient.hystrix.VodFileDegradeFeginClient;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,7 +16,9 @@ import java.util.List;
  * @Date 2020/7/26 14:51
  */
 @Component // 防止在其他位置注入 VodClient时 idea 报错
-@FeignClient("service-vod") // 指从哪个服务中调用功能, service-vod: vod 端(服务端) 在 nacos 注册的服务名字
+// 指从哪个服务中调用功能, service-vod: vod 端(服务端) 在 nacos 注册的服务名字
+// fallback = VodFileDegradeFeginClient.class, 指出现熔断,隔离降级之后会出现的操作类
+@FeignClient(value = "service-vod", fallback = VodFileDegradeFeginClient.class)
 public interface VodClient {
 
     /*

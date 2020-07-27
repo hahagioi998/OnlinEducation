@@ -23,16 +23,17 @@
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
-        <!--<dependency>
+        <!-- ribbon 负载均衡 -->
+        <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-ribbon</artifactId>
-        </dependency>-->
+        </dependency>
 
-        <!--hystrix依赖，主要是用  @HystrixCommand -->
-        <!--<dependency>
+        <!-- hystrix依赖，主要是用  @HystrixCommand -->
+        <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
-        </dependency>-->
+        </dependency>
 
         <!-- 服务注册 -->
         <dependency>
