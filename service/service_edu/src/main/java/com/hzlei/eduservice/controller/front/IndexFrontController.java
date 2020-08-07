@@ -36,6 +36,7 @@ public class IndexFrontController {
         QueryWrapper<EduCourse> courseQueryWrapper = new QueryWrapper<>();
         courseQueryWrapper.orderByDesc("id");
         courseQueryWrapper.last("limit 8");
+        courseQueryWrapper.eq("status", "Normal");
 
         List<EduCourse> courses = courseService.list(courseQueryWrapper);
 
