@@ -1,13 +1,11 @@
 package com.hzlei.educms.controller;
 
-
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hzlei.commonutils.R;
 import com.hzlei.educms.entity.CrmBanner;
 import com.hzlei.educms.service.CrmBannerService;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 /**
@@ -28,16 +26,17 @@ public class BannerAdminController {
 
     /**
      * 分页查询
-     * @param page 当前页
+     * @param current 当前页
      * @param limit 每页数量
      * @return
      */
-    @GetMapping("pageBanner/{page}/{limit}")
-    public R pageBanner(@PathVariable long page, @PathVariable long limit) {
-        Page<CrmBanner> pageBanner = new Page<>(page, limit);
-        bannerService.page(pageBanner, null);
+    @GetMapping("pageBanner/{current}/{limit}")
+    public R pageBanner(@PathVariable long current, @PathVariable long limit) {
+        Page<CrmBanner> page = new Page<>(current, limit);
 
-        return R.ok().data("items", pageBanner.getRecords()).data("total", pageBanner.getTotal());
+        bannerService.page(page, null);
+
+        return R.ok().data("items", page.getRecords()).data("total", page.getTotal());
     }
 
     /**
