@@ -6,7 +6,6 @@ import com.hzlei.commonutils.R;
 import com.hzlei.eduservice.entity.EduTeacher;
 import com.hzlei.eduservice.entity.vo.TeacherQuery;
 import com.hzlei.eduservice.service.EduTeacherService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
