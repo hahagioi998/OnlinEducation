@@ -6,6 +6,7 @@ import com.hzlei.eduservice.entity.EduCourse;
 import com.hzlei.eduservice.entity.EduTeacher;
 import com.hzlei.eduservice.service.EduCourseService;
 import com.hzlei.eduservice.service.EduTeacherService;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,8 +31,9 @@ public class IndexFrontController {
     private EduTeacherService teacherService;
 
     // 8条热门课程数据, 4条名师数据
-    @GetMapping("index")
-    public R index() {
+    @Cacheable(value = "courses", key = "'hotCourses'")
+    @GetMapping("hotCourses")
+    public R hotCourse() {
         // 8条热门课程数据
         QueryWrapper<EduCourse> courseQueryWrapper = new QueryWrapper<>();
         courseQueryWrapper.orderByDesc("id");
@@ -40,6 +42,12 @@ public class IndexFrontController {
 
         List<EduCourse> courses = courseService.list(courseQueryWrapper);
 
+        return R.ok().data("courses", courses);
+    }
+
+    @Cacheable(value = "teachers", key = "'hotTeachers'")
+    @GetMapping("hotTeachers")
+    public R hotTeacher() {
         // 4条名师数据
         QueryWrapper<EduTeacher> teacherQueryWrapper = new QueryWrapper<>();
         teacherQueryWrapper.orderByAsc("id");
@@ -47,7 +55,7 @@ public class IndexFrontController {
 
         List<EduTeacher> teachers = teacherService.list(teacherQueryWrapper);
 
-        return R.ok().data("courses", courses).data("teachers", teachers);
+        return R.ok().data("teachers", teachers);
     }
 
 }
