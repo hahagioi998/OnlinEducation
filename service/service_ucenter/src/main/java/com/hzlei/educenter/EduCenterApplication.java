@@ -1,11 +1,9 @@
 package com.hzlei.educenter;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * @Description: TODO:
@@ -15,10 +13,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @SpringBootApplication
 // 主要是为了扫描到公共模块(common)下的 swagger
 @ComponentScan(basePackages = {"com.hzlei"})
-// nacos 注册
-//@EnableDiscoveryClient
-// 服务调用(调用端/客户端)
-//@EnableFeignClients
+@MapperScan("com.hzlei.educenter.mapper")
 public class EduCenterApplication {
 
     public static void main(String[] args) {
