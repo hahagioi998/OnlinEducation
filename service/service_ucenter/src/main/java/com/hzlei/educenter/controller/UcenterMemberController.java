@@ -3,6 +3,7 @@ package com.hzlei.educenter.controller;
 
 import com.hzlei.commonutils.R;
 import com.hzlei.educenter.entity.UcenterMember;
+import com.hzlei.educenter.entity.vo.RegisterVo;
 import com.hzlei.educenter.service.UcenterMemberService;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,6 +39,11 @@ public class UcenterMemberController {
     }
 
     // 注册
+    @PostMapping("register")
+    public R register(@RequestBody RegisterVo register) {
+        memberService.register(register);
+        return R.ok();
+    }
 
 }
 

@@ -4,12 +4,17 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.hzlei.commonutils.JwtUtils;
 import com.hzlei.commonutils.MD5;
 import com.hzlei.educenter.entity.UcenterMember;
+import com.hzlei.educenter.entity.vo.RegisterVo;
 import com.hzlei.educenter.mapper.UcenterMemberMapper;
 import com.hzlei.educenter.service.UcenterMemberService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hzlei.servicebase.exceptionhandler.HzleiException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+
+import javax.annotation.Resource;
 
 /**
  * <p>
@@ -21,6 +26,9 @@ import org.springframework.util.StringUtils;
  */
 @Service
 public class UcenterMemberServiceImpl extends ServiceImpl<UcenterMemberMapper, UcenterMember> implements UcenterMemberService {
+
+    @Autowired
+    private RedisTemplate<String, String> redisTemplate;
 
     /**
      * 登录
@@ -59,5 +67,43 @@ public class UcenterMemberServiceImpl extends ServiceImpl<UcenterMemberMapper, U
 
         // 返回 token
         return token;
+    }
+
+    // 注册
+    @Override
+    public void register(RegisterVo register) {
+        // 获取传递过来的参数
+        String code = register.getCode();
+        String nickname = register.getNickname();
+        String mobile = register.getMobile();
+        String password = register.getPassword();
+
+        // 非空判断
+        if (StringUtils.isEmpty(code) ||
+            StringUtils.isEmpty(nickname) ||
+            StringUtils.isEmpty(mobile) ||
+            StringUtils.isEmpty(password))
+            throw new HzleiException(20001, "注册失败");
+
+        // 手机验证码是否正确
+        // 获取 redis 里面的验证码
+        String redisCode = redisTemplate.opsForValue().get(mobile);
+        if (!code.equals(redisCode))
+            throw new HzleiException(20001, "验证码错误");
+
+        // 判断手机号是否已经注册
+        QueryWrapper<UcenterMember> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("mobile", mobile);
+        Integer count = baseMapper.selectCount(queryWrapper);
+
+        if (count > 0) throw new HzleiException(20001, "该手机号已注册");
+
+        // 代码走到这里, 表示可以注册, 把数据添加到数据库
+        UcenterMember member = new UcenterMember();
+        member.setMobile(mobile);
+        member.setNickname(nickname);
+        member.setPassword(MD5.encrypt(password));
+        member.setIsDisabled(false);
+        baseMapper.insert(member);
     }
 }
