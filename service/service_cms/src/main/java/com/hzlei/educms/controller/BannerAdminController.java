@@ -4,9 +4,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hzlei.commonutils.R;
 import com.hzlei.educms.entity.CrmBanner;
 import com.hzlei.educms.service.CrmBannerService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 
 /**
  * <p>
@@ -21,7 +21,7 @@ import javax.annotation.Resource;
 @RequestMapping("/educms/bannerAdmin")
 public class BannerAdminController {
 
-    @Resource
+    @Autowired
     private CrmBannerService bannerService;
 
     /**

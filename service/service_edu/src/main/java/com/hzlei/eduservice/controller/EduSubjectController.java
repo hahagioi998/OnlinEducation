@@ -4,11 +4,11 @@ package com.hzlei.eduservice.controller;
 import com.hzlei.commonutils.R;
 import com.hzlei.eduservice.entity.tree.OneSubject;
 import com.hzlei.eduservice.service.EduSubjectService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -24,7 +24,7 @@ import java.util.List;
 @RequestMapping("/eduservice/subject")
 public class EduSubjectController {
 
-    @Resource
+    @Autowired
     private EduSubjectService eduSubjectService;
 
     /**

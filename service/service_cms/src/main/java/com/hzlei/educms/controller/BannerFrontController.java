@@ -4,12 +4,12 @@ package com.hzlei.educms.controller;
 import com.hzlei.commonutils.R;
 import com.hzlei.educms.entity.CrmBanner;
 import com.hzlei.educms.service.CrmBannerService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -25,7 +25,7 @@ import java.util.List;
 @RequestMapping("/educms/bannerFront")
 public class BannerFrontController {
 
-    @Resource
+    @Autowired
     private CrmBannerService bannerService;
 
     // 查询所有 banner

@@ -5,16 +5,14 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hzlei.commonutils.R;
 import com.hzlei.eduservice.entity.EduCourse;
-import com.hzlei.eduservice.entity.EduTeacher;
 import com.hzlei.eduservice.entity.vo.CourseInfoVo;
 import com.hzlei.eduservice.entity.vo.CoursePublishVo;
 import com.hzlei.eduservice.entity.vo.CourseQuery;
-import com.hzlei.eduservice.entity.vo.TeacherQuery;
 import com.hzlei.eduservice.service.EduCourseService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -31,7 +29,7 @@ import java.util.List;
 @RequestMapping("/eduservice/course")
 public class EduCourseController {
 
-    @Resource
+    @Autowired
     private EduCourseService courseService;
 
     /**

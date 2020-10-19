@@ -6,10 +6,10 @@ import com.hzlei.commonutils.R;
 import com.hzlei.eduservice.entity.EduTeacher;
 import com.hzlei.eduservice.entity.vo.TeacherQuery;
 import com.hzlei.eduservice.service.EduTeacherService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -27,7 +27,7 @@ import java.util.List;
 public class EduTeacherController {
 
     // service注入
-    @Resource
+    @Autowired
     private EduTeacherService eduTeacherService;
 
     // 1, 查询讲师表所有数据

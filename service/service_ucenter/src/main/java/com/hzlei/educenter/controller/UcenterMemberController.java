@@ -1,13 +1,11 @@
 package com.hzlei.educenter.controller;
 
-
 import com.hzlei.commonutils.R;
 import com.hzlei.educenter.entity.UcenterMember;
 import com.hzlei.educenter.entity.vo.RegisterVo;
 import com.hzlei.educenter.service.UcenterMemberService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import javax.annotation.Resource;
 
 /**
  * <p>
@@ -22,7 +20,7 @@ import javax.annotation.Resource;
 @RequestMapping("/educenter/ucenter")
 public class UcenterMemberController {
 
-    @Resource
+    @Autowired
     private UcenterMemberService memberService;
 
     /**

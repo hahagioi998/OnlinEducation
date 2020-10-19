@@ -6,10 +6,10 @@ import com.hzlei.eduservice.entity.EduVideo;
 import com.hzlei.eduservice.feginclient.VodClient;
 import com.hzlei.eduservice.service.EduVideoService;
 import com.hzlei.servicebase.exceptionhandler.HzleiException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 
 /**
  * <p>
@@ -25,9 +25,9 @@ import javax.annotation.Resource;
 @RequestMapping("/eduservice/video")
 public class EduVideoController {
 
-    @Resource
+    @Autowired
     private EduVideoService videoService;
-    @Resource
+    @Autowired
     private VodClient vodClient;
 
     /**

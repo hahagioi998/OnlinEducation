@@ -6,10 +6,10 @@ import com.hzlei.eduservice.feginclient.VodClient;
 import com.hzlei.eduservice.mapper.EduVideoMapper;
 import com.hzlei.eduservice.service.EduVideoService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +24,7 @@ import java.util.List;
 @Service
 public class EduVideoServiceImpl extends ServiceImpl<EduVideoMapper, EduVideo> implements EduVideoService {
 
-    @Resource
+    @Autowired
     private VodClient vodClient;
 
     /**

@@ -12,10 +12,9 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hzlei.eduservice.service.EduVideoService;
 import com.hzlei.servicebase.exceptionhandler.HzleiException;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.annotation.Resource;
 
 /**
  * <p>
@@ -28,11 +27,11 @@ import javax.annotation.Resource;
 @Service
 public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse> implements EduCourseService {
 
-    @Resource
+    @Autowired
     private EduCourseDescriptionService courseDescriptionService;
-    @Resource
+    @Autowired
     private EduVideoService videoService;
-    @Resource
+    @Autowired
     private EduChapterService chapterService;
 
     // 添加课程基本信息

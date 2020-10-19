@@ -1,13 +1,12 @@
 package com.hzlei.eduservice.controller;
 
-
 import com.hzlei.commonutils.R;
 import com.hzlei.eduservice.entity.EduChapter;
 import com.hzlei.eduservice.entity.chapter.ChapterVo;
 import com.hzlei.eduservice.service.EduChapterService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -24,7 +23,7 @@ import java.util.List;
 @RequestMapping("/eduservice/chapter")
 public class EduChapterController {
 
-    @Resource
+    @Autowired
     private EduChapterService chapterService;
 
     /**
