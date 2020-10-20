@@ -1,11 +1,14 @@
 package com.hzlei.educenter.controller;
 
+import com.hzlei.commonutils.JwtUtils;
 import com.hzlei.commonutils.R;
 import com.hzlei.educenter.entity.UcenterMember;
 import com.hzlei.educenter.entity.vo.RegisterVo;
 import com.hzlei.educenter.service.UcenterMemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * <p>
@@ -41,6 +44,16 @@ public class UcenterMemberController {
     public R register(@RequestBody RegisterVo register) {
         memberService.register(register);
         return R.ok();
+    }
+
+    // 根据 token 获取用户信息
+    @GetMapping("getUserInfo")
+    public R getUserInfoByToken(HttpServletRequest request) {
+        // 调用 jwt 工具类中的方法
+        String userId = JwtUtils.getMemberIdByJwtToken(request);
+        // 根据用户 id 查询用户信息
+        UcenterMember userInfo = memberService.getById(userId);
+        return R.ok().data("userInfo", userInfo);
     }
 
 }
