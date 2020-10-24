@@ -1,6 +1,7 @@
 package com.hzlei.educenter.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.hzlei.commonutils.JwtUtils;
 import com.hzlei.educenter.entity.UcenterMember;
 import com.hzlei.educenter.service.UcenterMemberService;
 import com.hzlei.educenter.utils.ConstantWxUtils;
@@ -103,27 +104,27 @@ public class WxApiController {
             String access_token = (String) hashMap.get("access_token");
             String openid = (String) hashMap.get("openid");
 
-            // 拿着 access_token, openid 请求 微信固定地址, 获取用户信息
-            String baseUserInfo = "https://api.weixin.qq.com/sns/userinfo" +
-                    "?access_token=%s" +
-                    "&openid=%s";
-            String userInfoUrl = String.format(
-                    baseUserInfo,
-                    access_token,
-                    openid
-            );
-
-            // 发送请求
-            String userInfo = HttpClientUtils.get(userInfoUrl);
-            HashMap userInfoMap = JSONObject.parseObject(userInfo, HashMap.class);
-            String nickname = (String) userInfoMap.get("nickname");
-            String headimgurl = (String) userInfoMap.get("headimgurl");
-            int sex = (Integer) userInfoMap.get("sex");
-
             // 将信息存入到数据库
             // 判断数据库有没有相同的用户, 根据 openid 判断
             UcenterMember member = memberService.getOpenIdMemBer(openid);
             if (member == null) {
+                // 拿着 access_token, openid 请求 微信固定地址, 获取用户信息
+                String baseUserInfo = "https://api.weixin.qq.com/sns/userinfo" +
+                        "?access_token=%s" +
+                        "&openid=%s";
+                String userInfoUrl = String.format(
+                        baseUserInfo,
+                        access_token,
+                        openid
+                );
+
+                // 发送请求
+                String userInfo = HttpClientUtils.get(userInfoUrl);
+                HashMap userInfoMap = JSONObject.parseObject(userInfo, HashMap.class);
+                String nickname = (String) userInfoMap.get("nickname");
+                String headimgurl = (String) userInfoMap.get("headimgurl");
+                int sex = (Integer) userInfoMap.get("sex");
+
                 // 如果为 null, 就向数据库添加
                 member = new UcenterMember();
                 member.setAvatar(headimgurl);
@@ -132,7 +133,11 @@ public class WxApiController {
                 member.setSex(sex);
                 memberService.save(member);
             }
-            return "redirect:http://localhost:3000";
+
+            // 使用 jwt 根据 member 对象生成 token 字符串
+            String token = JwtUtils.getJwtToken(member.getId(), member.getNickname());
+
+            return "redirect:http://localhost:3000?token=" + token;
         } catch (Exception e) {
             e.printStackTrace();
             throw new HzleiException(20001, "登录失败");
