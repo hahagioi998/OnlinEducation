@@ -104,4 +104,13 @@ public class UcenterMemberServiceImpl extends ServiceImpl<UcenterMemberMapper, U
         member.setIsDisabled(false);
         baseMapper.insert(member);
     }
+
+    // 根据 openid 查询用户
+    @Override
+    public UcenterMember getOpenIdMemBer(String openid) {
+        QueryWrapper<UcenterMember> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("openid", openid);
+        UcenterMember member = baseMapper.selectOne(queryWrapper);
+        return member;
+    }
 }
