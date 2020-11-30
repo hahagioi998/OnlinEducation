@@ -9,6 +9,7 @@ import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
 import com.hzlei.msm.service.MsmService;
+import com.hzlei.msm.utils.ConstantPropertiesUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -31,11 +32,17 @@ public class MsmServiceImpl implements MsmService {
      */
     @Override
     public boolean sendSMS(Map<String, Object> param, String phone) {
+        // 通过工具类获取参数值
+        String accessKeyId = ConstantPropertiesUtils.ACCESS_KEY_ID;
+        String accessKeySecret = ConstantPropertiesUtils.ACCESS_KEY_SECRET;
+        String signName = ConstantPropertiesUtils.SIGN_NAME;
+        String templateCode = ConstantPropertiesUtils.TEMPLATE_CODE;
+
         // 判断手机号是否为空
         if (StringUtils.isEmpty(phone)) return false;
 
         DefaultProfile profile = DefaultProfile
-                .getProfile("default", "LTAI4GL7jjZx1BZ8UP6C2XhS", "WhPLgHFr4xC037Soec9iaNyym4pbWb");
+                .getProfile("default", accessKeyId, accessKeySecret);
         IAcsClient client = new DefaultAcsClient(profile);
 
         // 设置相关参数
@@ -47,8 +54,8 @@ public class MsmServiceImpl implements MsmService {
 
         // 设置发送相关的参数
         request.putQueryParameter("PhoneNumbers", phone); // 发送的手机号
-        request.putQueryParameter("SignName", "善逸在线教育网站"); // 申请的阿里云短信服务 签名名称
-        request.putQueryParameter("TemplateCode", "SMS_204465936"); // 申请的阿里云短信服务 模板code
+        request.putQueryParameter("SignName", signName); // 申请的阿里云短信服务 签名名称
+        request.putQueryParameter("TemplateCode", templateCode); // 申请的阿里云短信服务 模板code
         request.putQueryParameter("TemplateParam", JSONObject.toJSONString(param)); // 验证码(json格式)
 
         try {
