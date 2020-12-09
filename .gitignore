@@ -31,6 +31,3 @@ build/
 .vscode/
 
 ## 阿里云配置
-service/service_oss/src/main/resources/application.properties
-service/service_vod/src/main/resources/application.properties
-service/service_msm/src/main/resources/application.properties
