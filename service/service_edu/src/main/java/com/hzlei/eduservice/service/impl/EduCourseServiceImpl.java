@@ -1,7 +1,10 @@
 package com.hzlei.eduservice.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hzlei.eduservice.entity.EduCourse;
 import com.hzlei.eduservice.entity.EduCourseDescription;
+import com.hzlei.eduservice.entity.frontvo.CourseFrontVo;
 import com.hzlei.eduservice.entity.vo.CourseInfoVo;
 import com.hzlei.eduservice.entity.vo.CoursePublishVo;
 import com.hzlei.eduservice.mapper.EduCourseMapper;
@@ -15,6 +18,10 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * <p>
@@ -126,5 +133,60 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
         int result = baseMapper.deleteById(courseId);
 
         if (result == 0) throw  new HzleiException(20001, "删除课程失败");
+    }
+
+    /**
+     * 课程 条件查询带分页
+     *
+     * @param pageCourse
+     * @param courseFrontVo
+     * @return
+     */
+    @Override
+    public Map<String, Object> getCourseFrontList(Page<EduCourse> pageCourse, CourseFrontVo courseFrontVo) {
+        // 返回数据
+        Map<String, Object> map = new HashMap<>();
+
+        // 查询条件
+        QueryWrapper<EduCourse> queryWrapper = new QueryWrapper<>();
+        // 判断一级分类
+        if (!StringUtils.isEmpty(courseFrontVo.getSubjectParentId())) {
+            queryWrapper.eq("subject_parent_id", courseFrontVo.getSubjectParentId());
+        }
+        // 判断二级分类
+        if (!StringUtils.isEmpty(courseFrontVo.getSubjectId())) {
+            queryWrapper.eq("subject_id", courseFrontVo.getSubjectId());
+        }
+        // 销量排序
+        if (!StringUtils.isEmpty(courseFrontVo.getBuyCountSort())) {
+            queryWrapper.orderByDesc("buy_count");
+        }
+        // 时间排序
+        if (!StringUtils.isEmpty(courseFrontVo.getGmtCreateSort())) {
+            queryWrapper.orderByDesc("gmt_create");
+        }
+        // 价格排序
+        if (!StringUtils.isEmpty(courseFrontVo.getPriceSort())) {
+            queryWrapper.orderByDesc("price");
+        }
+
+        baseMapper.selectPage(pageCourse, queryWrapper);
+
+        // 查询出来的讲师数据集合
+        map.put("records", pageCourse.getRecords());
+        // 当前页
+        map.put("current", pageCourse.getCurrent());
+        // 总页数
+        map.put("pages", pageCourse.getPages());
+        // 每页数据条数
+        map.put("size", pageCourse.getSize());
+        // 总数据条数
+        map.put("total", pageCourse.getTotal());
+        // 是否有下一页
+        map.put("hasNext", pageCourse.hasNext());
+        // 是否有上一页
+        map.put("hasPrevious", pageCourse.hasPrevious());
+
+        return map;
     }
 }
